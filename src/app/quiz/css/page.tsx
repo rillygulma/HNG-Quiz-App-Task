@@ -16,6 +16,7 @@ const QuizPage = () => {
   const [quizTitle, setQuizTitle] = useState('');
   const [clickedAnswer, setClickedAnswer] = useState<string | null>(null); // State to track clicked answer
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false); // Dark mode state
+  const [hasFirstQuestionBeenSubmitted, setHasFirstQuestionBeenSubmitted] = useState<boolean>(false); // New state to track if the first question has been submitted
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -44,6 +45,11 @@ const QuizPage = () => {
       setTimeout(() => {
         const correctAnswer = questions[currentQuestion]?.answer;
         const isCorrect = selectedAnswers[currentQuestion] === correctAnswer;
+
+        // Set hasFirstQuestionBeenSubmitted to true if it's the first question
+        if (currentQuestion === 0) {
+          setHasFirstQuestionBeenSubmitted(true);
+        }
 
         if (isCorrect) {
           if (currentQuestion < questions.length - 1) {
@@ -117,32 +123,34 @@ const QuizPage = () => {
             isDarkMode={isDarkMode} // Pass isDarkMode
           />
 
-          <div className="relative pt-1 mt-6">
-            <div className="flex mb-2 items-center justify-between">
-              <span
-                className={`text-xs font-semibold inline-block py-1 px-2 rounded-full ${
-                  isDarkMode ? 'text-blue-300 bg-blue-800' : 'text-blue-600 bg-blue-200'
-                } uppercase`}
-              >
-                Progress
-              </span>
-            </div>
-            <div className="flex">
-              <div
-                className={`relative flex-1 rounded-full h-2 ${
-                  isDarkMode ? 'bg-gray-800' : 'bg-blue-200'
-                }`}
-                style={{ width: '100%' }}
-              >
+          {hasFirstQuestionBeenSubmitted && ( // Conditionally render the progress bar
+            <div className="relative pt-1 mt-6">
+              <div className="flex mb-2 items-center justify-between">
+                <span
+                  className={`text-xs font-semibold inline-block py-1 px-2 rounded-full ${
+                    isDarkMode ? 'text-blue-300 bg-blue-800' : 'text-blue-600 bg-blue-200'
+                  } uppercase`}
+                >
+                  Progress
+                </span>
+              </div>
+              <div className="flex">
                 <div
-                  className={`absolute top-0 left-0 h-2 ${
-                    isDarkMode ? 'bg-custom-purple' : 'bg-custom-purple'
-                  } rounded-full`}
-                  style={{ width: `${progressPercentage}%` }}
-                />
+                  className={`relative flex-1 rounded-full h-2 ${
+                    isDarkMode ? 'bg-gray-800' : 'bg-blue-200'
+                  }`}
+                  style={{ width: '100%' }}
+                >
+                  <div
+                    className={`absolute top-0 left-0 h-2 ${
+                      isDarkMode ? 'bg-custom-purple' : 'bg-custom-purple'
+                    } rounded-full`}
+                    style={{ width: `${progressPercentage}%` }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div className="flex justify-center">

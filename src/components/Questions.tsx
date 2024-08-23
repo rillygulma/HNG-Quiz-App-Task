@@ -29,7 +29,7 @@ const Question: React.FC<QuestionProps> = ({
 
   return (
     <div>
-      <h2 className={`text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-custom-text'}`}>{question}</h2>
+      <h2 className={`text-1xl font-bold ${isDarkMode ? 'text-white' : 'text-custom-text'}`}>{question}</h2>
       <ul className="mt-4">
         <div className={`flex flex-col gap-2 ${isDarkMode ? 'text-white' : 'text-custom-text'}`}>
           {options.map((option, index) => {
@@ -58,7 +58,7 @@ const Question: React.FC<QuestionProps> = ({
                   className={buttonClass}
                   onClick={() => onAnswerChange(option)}
                 >
-                  <span className={`inline-block rounded-full px-2 py-1 mr-2 ${letterColor}`}>
+                  <span className={`inline-block rounded-lg px-2 py-0 mr-2 ${letterColor}`}>
                     {option[0]}
                   </span>
                   {option.slice(1)}
